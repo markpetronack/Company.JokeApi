@@ -5,11 +5,11 @@ on:
   push:
     branches:
       - main
-		
+
 env:
   AZURE_WEBAPP_NAME: CompanyJokeApi
   AZURE_WEBAPP_PACKAGE_PATH:  "./publish"
-		
+
 jobs:
   publish:
     runs-on:
@@ -17,23 +17,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-			
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.0.x'
-					
+
       - name: Restore
         run: dotnet restore ./Company.JokeApi.sln
-			  
+
       - name: Build
         run: dotnet build ./Company.JokeApi.sln --configuration Release --no-restore
 
 			# run tests here
- 
+
       - name: Publish
         run: dotnet publish ./Company.JokeApi.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-			  
+
       - name: Deployment
         uses: azure/webapps-deploy@v2
         with:
